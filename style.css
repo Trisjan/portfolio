@@ -7,7 +7,10 @@
 body {
     font-family: 'Roboto Slab';
     background-color: #2E4D53;
+    color: white;
 }
+
+/* NAVBAR */
 
 nav {
     display: flex;
@@ -33,7 +36,7 @@ nav li {
 }
 
 nav li a:hover {
-    color: brown;
+    color: rgb(199, 183, 112);
 }
 
 nav a {
@@ -42,6 +45,60 @@ nav a {
     display: block;
     padding: 1rem;
     transition: 0.7s;
+}
+
+/* MAIN BODY CONTENT */
+main {
+    margin: 2rem;
+}
+
+.introduction {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 1rem;
+    margin-inline: auto;
+    grid-template-areas: 
+    "frontend ."
+    "developer ."
+    "designer ."
+    ;
+}
+
+.introduction h1 {
+    margin-left: 15%;
+}
+
+.introduction .first-text {
+    grid-area: frontend;
+    font-size: 7rem;
+    animation-name: fade-in ease 3s;
+}
+
+.introduction .second-text {
+    grid-area: developer;
+    font-size: 7rem;
+    margin-left: 50%;
+    animation-name: fade-in ease 3s;
+    animation-delay: 0.2s;
+}
+
+.introduction .third-text {
+    grid-area: designer;
+    font-size: 7rem;
+    margin-left: 25%;
+    animation-name: fade-in ease 3s;
+    animation-delay: 0.4s;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* ////////////////////////////////////////////////////////////// */

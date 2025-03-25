@@ -1,5 +1,6 @@
 <script>
 import { onMount } from "svelte";
+import { Mobile_logo } from '$lib/index.js';
 
 const GithubAPI = 'https://api.github.com/users/';
 const Username = 'Trisjan';
@@ -26,10 +27,32 @@ onMount(async () => {
 	<meta name="description" content="Trisjan's portfolio" />
 </svelte:head>
 
-<section>
-	<h1>
-		Welcome to your new<br />SvelteKit app
-	</h1>
+<section class="intro">
+	<img src={Mobile_logo} alt="Alifuru logo">
+	<div class="intro_text">
+		<h1>Trisjan Mustamu</h1>
+		<p>junior frontend developer / designer</p>
+	</div>
+</section>
+
+<section class="about">
+	<div class="about_top">
+		<img src="" alt="">
+		<h2>About me</h2>
+	</div>
+	<article>
+		<p>
+			Altijd nieuwsgierig en klaar voor nieuwe uitdagingen in mijn carrière, 
+			ben ik opgewonden om mijn vaardigheden van tijdens mijn studie te gebruiken en echt iets te bereiken. 
+			Ik ben enthousiast om mijn opgedane vaardigheden tijdens mijn studie in te zetten en een betekenisvolle bijdrage te leveren in mijn vakgebied. 
+			Mijn doel is om niet alleen professioneel te groeien, maar ook om mijn kennis en expertise in te zetten voor het van anderen. 
+			Ik ben vastbesloten om mijn potentieel te benutten en een verder te groeien.
+		</p>
+		<button>
+			Contact
+		</button>
+		<img src="" alt="">
+	</article>
 </section>
 
 <section class="middle">
@@ -52,25 +75,41 @@ onMount(async () => {
 		justify-content: center;
 		align-items: center;
 		flex: 0.6;
+		/* padding: 0 1rem; */
 	}
 
 	h1 {
-		width: 100%;
+		font-size: 4rem;
+		font-weight: 500;
 	}
 
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
+	.intro,
+	.about {
+		min-height: 100vh;
+		min-width: 100vw;
 	}
 
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
+	.intro {
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	.intro > .intro_text > h1 {
+		margin-bottom: 0;
+	}
+
+	.intro > .intro_text > p {
+		font-weight: lighter;
+		margin-top: 0;
+	}
+
+	.about {
+		background-color: var(--color-bg-1);
+		color: var(--color-text-2);
+	}
+
+	.about > article > p {
+		text-align: center;
+		max-width: 90vw;
 	}
 </style>

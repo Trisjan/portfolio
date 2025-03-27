@@ -1,23 +1,23 @@
-@import '@fontsource/fira-mono';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-	--font-body: 'Roboto';
-	--font-mono: 'Fira Mono', monospace;
+	--font-body: 'Roboto', sans-serif;
 	--color-bg-0: rgb(255, 255, 255);
 	--color-bg-1: hsl(0, 0%, 0%);
-	--color-theme-1: #ff3e00;
-	--color-theme-2: #4075a6;
 	--color-text-1: rgba(0, 0, 0);
 	--color-text-2: rgba(255, 255, 255);
 	--column-width: 42rem;
 	--column-margin-top: 4rem;
 	font-family: var(--font-body);
-	color: var(--color-text);
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
 }
 
 body {
 	min-height: 100vh;
 	margin: 0;
+	padding: 0;
 	background-attachment: fixed;
 	background-color: var(--color-bg-0);
 }

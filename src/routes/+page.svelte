@@ -28,7 +28,7 @@ onMount(async () => {
 </svelte:head>
 
 <section class="intro">
-	<img src={Mobile_logo} alt="Alifuru logo">
+	<img height="250" width="250" src={Mobile_logo} alt="Alifuru logo">
 	<div class="intro_text">
 		<h1>Trisjan Mustamu</h1>
 		<p>junior frontend developer / designer</p>
@@ -75,7 +75,6 @@ onMount(async () => {
 		justify-content: center;
 		align-items: center;
 		flex: 0.6;
-		/* padding: 0 1rem; */
 	}
 
 	h1 {
@@ -86,7 +85,7 @@ onMount(async () => {
 	.intro,
 	.about {
 		min-height: 100vh;
-		min-width: 100vw;
+		width: 100vw;
 	}
 
 	.intro {
@@ -110,6 +109,6 @@ onMount(async () => {
 
 	.about > article > p {
 		text-align: center;
-		max-width: 90vw;
+		/* max-width: 90vw; */
 	}
 </style>

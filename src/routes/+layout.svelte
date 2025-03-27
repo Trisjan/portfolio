@@ -1,11 +1,13 @@
 <script>
 	import '../app.css';
+	import { Navigation } from '$lib/index.js';
 
 	/** @type {{children: import('svelte').Snippet}} */
 	let { children } = $props();
 </script>
 
 <div class="app">
+	<Navigation />
 
 	<main>
 		{@render children()}
@@ -38,7 +40,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		padding: 12px;
+		/* padding: 12px; */
 	}
 
 	footer a {

@@ -1,6 +1,6 @@
 <script>
 import { onMount } from "svelte";
-import { Mobile_logo } from '$lib/index.js';
+import { Mobile_logo, About_logo, Alifuru_leafs } from '$lib/index.js';
 
 const GithubAPI = 'https://api.github.com/users/';
 const Username = 'Trisjan';
@@ -37,8 +37,11 @@ onMount(async () => {
 
 <section class="about">
 	<div class="about_top">
-		<img src="" alt="">
-		<h2>About me</h2>
+		<section>
+			<img src={About_logo} alt="">
+			<h2>About me</h2>
+		</section>
+		<img src={Alifuru_leafs} alt="">
 	</div>
 	<article>
 		<p>
@@ -105,10 +108,43 @@ onMount(async () => {
 	.about {
 		background-color: var(--color-bg-1);
 		color: var(--color-text-2);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.about > .about_top {
+		flex-shrink: 0; /* Zorgt dat dit gedeelte niet verkleint */
+		padding: 1rem 0;
+	}
+
+	.about > .about_top h2 {
+		font-size: 4rem;
+		font-weight: 400;
+		text-transform: uppercase;
+		margin: 1.5rem 0;
+	}
+
+	.about > .about_top > section > img {
+		height: 3.125rem;
+	}
+
+	.about > .about_top > img {
+		max-width: 100vw;
+		height: 1rem;
+		/* object-fit: contain; */
+	}
+
+	.about > article {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center; /* Verticaal en horizontaal centreren */
+		text-align: center;
+		padding: 1rem;
 	}
 
 	.about > article > p {
 		text-align: center;
-		/* max-width: 90vw; */
 	}
 </style>

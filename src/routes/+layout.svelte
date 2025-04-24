@@ -27,6 +27,10 @@
 		min-height: 100vh;
 	}
 
+	Navigation {
+		mix-blend-mode: difference;
+	}
+
 	main {
 		flex: 1;
 		display: flex;

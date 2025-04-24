@@ -1,6 +1,6 @@
 <script>
 import { onMount } from "svelte";
-import { Mobile_logo, About_logo, Alifuru_leafs } from '$lib/index.js';
+import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines } from '$lib/index.js';
 
 const GithubAPI = 'https://api.github.com/users/';
 const Username = 'Trisjan';
@@ -54,20 +54,25 @@ onMount(async () => {
 		<button>
 			Contact
 		</button>
-		<img src="" alt="">
+		<img src={Photo_self} alt="My self">
 	</article>
 </section>
 
-<section class="middle">
-	<h2>Repositories</h2>
-	<div class="repos">
-		{#each repos as repo}
-		<div class="repository">
-			<h2><a href={repo.html_url} target="_blank">{repo.name}</a></h2>
-			<img src={repo.owner.avatar_url} width="50" height="50">
-			<p>{repo.owner.login}</p>
-		</div>
-		{/each}
+<section class="work">
+	<div class="work_top">
+		<section>
+			<img src={Alifuru_birds} alt="Alifuru birds">
+			<h2>Selected work</h2>
+		</section>
+		<img src={ALifuru_lines} alt="Alifuru lines">
+	</div>
+	<div class="work_middle">
+		<section>
+			<img src="" alt="logo">
+			<h2>Openbare bibliotheek van Amsterdam</h2>
+			<h3>Code project</h3>
+		</section>
+		<a href="">View project</a>
 	</div>
 </section>
 
@@ -130,8 +135,8 @@ onMount(async () => {
 
 	.about > .about_top > img {
 		max-width: 100vw;
-		height: 1rem;
-		/* object-fit: contain; */
+		height: 1.5rem;
+		object-fit: cover;
 	}
 
 	.about > article {
@@ -146,5 +151,28 @@ onMount(async () => {
 
 	.about > article > p {
 		text-align: center;
+	}
+
+	.work {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.work > .work_top {
+		padding: 1rem 0;
+	}
+
+	.work > .work_top h2 {
+		font-size: 4rem;
+		font-weight: 400;
+		text-transform: uppercase;
+		margin: 1.5rem 0;
+		text-align: center;
+	}
+
+	.work > .work_top > img {
+		max-width: 100vw;
+		height: 1.5rem;
+		object-fit: cover;
 	}
 </style>

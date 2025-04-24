@@ -19,7 +19,7 @@
         <li on:click={hideSidebar}>
             <a href="#"><img src={Close_logo} alt="close button" height="26" width="26"></a>
         </li>
-        <li><a href="#">My work</a></li>
+        <li><a href="/repositories">My work</a></li>
         <li><a href="#">Contact</a></li>
     </ul>
 </nav>
@@ -27,8 +27,8 @@
 <!-- Hoofdmenu -->
 <nav>
     <ul>
-        <li><a href="#">Trisjan Mustamu</a></li>
-        <li class="hideOnMobile"><a href="#">My work</a></li>
+        <li><a href="/">Trisjan Mustamu</a></li>
+        <li class="hideOnMobile"><a href="/repositories">My work</a></li>
         <li class="hideOnMobile"><a href="#">Contact</a></li>
         <li class="menu-button" on:click={showSidebar}>
             <a href="#"><img src={Hamburger_logo} alt="hamburger menu" height="26" width="26"></a>

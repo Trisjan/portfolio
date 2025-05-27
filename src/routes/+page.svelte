@@ -1,6 +1,6 @@
 <script>
 import { onMount } from "svelte";
-import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines } from '$lib/index.js';
+import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook } from '$lib/index.js';
 
 const GithubAPI = 'https://api.github.com/users/';
 const Username = 'Trisjan';
@@ -62,18 +62,19 @@ onMount(async () => {
 	<div class="work_top">
 		<section>
 			<img src={Alifuru_birds} alt="Alifuru birds">
-			<h2>Selected work</h2>
+			<h2>Selected<br>work</h2>
 		</section>
 		<img src={ALifuru_lines} alt="Alifuru lines">
 	</div>
 	<div class="work_middle">
-		<section>
-			<img src="" alt="logo">
-			<h2>Openbare bibliotheek van Amsterdam</h2>
+		<article>
+			<img src={OBA_logo} alt="logo">
+			<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
 			<h3>Code project</h3>
-		</section>
+		</article>
 		<a href="">View project</a>
 	</div>
+	<img src={OBA_MacBook} alt="OBA site in macbook mockup">
 </section>
 
 <style>
@@ -91,9 +92,11 @@ onMount(async () => {
 	}
 
 	.intro,
-	.about {
+	.about,
+	.work {
 		min-height: 100vh;
 		width: 100vw;
+		padding: 2rem 0;
 	}
 
 	.intro {
@@ -146,11 +149,29 @@ onMount(async () => {
 		align-items: center;
 		justify-content: center; /* Verticaal en horizontaal centreren */
 		text-align: center;
-		padding: 1rem;
+		width: 80vw;
+		padding: 3rem 0;
 	}
 
 	.about > article > p {
 		text-align: center;
+		margin: 0;
+		font-weight: 300;
+	}
+
+	.about > article > button {
+		border: none;
+		background: none;
+		color: var(--color-text-2);
+		text-transform: uppercase;
+		text-decoration: underline;
+		margin: 2.5rem 0;
+		font-size: 1.2rem;
+		font-weight: 500;
+	}
+
+	.about > article > img {
+		width: 80vw;
 	}
 
 	.work {
@@ -174,5 +195,38 @@ onMount(async () => {
 		max-width: 100vw;
 		height: 1.5rem;
 		object-fit: cover;
+	}
+
+	.work > .work_middle {
+		display: flex;
+		justify-content: space-between;
+		width: 80vw;
+		margin: 2rem 0;
+	}
+
+	.work > .work_middle > article {
+		justify-content: flex-start;
+		/* max-width: 50vw; */
+	}
+
+	.work > .work_middle > article > h2, h3 {
+		margin: 0;
+		text-transform: uppercase;
+	}
+
+	.work > .work_middle > article > h3 {
+		font-weight: 300;
+	}
+
+	.work > .work_middle > a {
+		align-self: self-end;
+		text-transform: uppercase;
+		color: var(--color-text-1);
+		font-weight: 500;
+	}
+
+	.work > img {
+		width: 80vw;
+		object-fit: contain;
 	}
 </style>

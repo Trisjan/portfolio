@@ -1,25 +1,5 @@
 <script>
-import { onMount } from "svelte";
 import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook } from '$lib/index.js';
-
-const GithubAPI = 'https://api.github.com/users/';
-const Username = 'Trisjan';
-const RepoAPI = '/repos';
-const ApiUrl = `${GithubAPI}${Username}${RepoAPI}`
-
-let repos = [];
-
-onMount(async () => {
-	try {
-            const response = await fetch(ApiUrl);
-            repos = await response.json();
-            
-            repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
-        } catch (error) {
-            console.error('Error fetching repos:', error);
-        }
-})
-
 </script>
 
 <svelte:head>
@@ -30,7 +10,10 @@ onMount(async () => {
 <section class="intro">
 	<img height="250" width="250" src={Mobile_logo} alt="Alifuru logo">
 	<div class="intro_text">
-		<h1>Trisjan Mustamu</h1>
+		<h1>
+			<span class="line">Trisjan</span>
+			<span class="line">Mustamu</span>
+		</h1>
 		<p>junior frontend developer / designer</p>
 	</div>
 </section>
@@ -62,7 +45,10 @@ onMount(async () => {
 	<div class="work_top">
 		<section>
 			<img src={Alifuru_birds} alt="Alifuru birds">
-			<h2>Selected<br>work</h2>
+			<h2>
+				<span class="line">Selected</span>
+				<span class="line">work</span>
+			</h2>
 		</section>
 		<img src={ALifuru_lines} alt="Alifuru lines">
 	</div>
@@ -72,7 +58,7 @@ onMount(async () => {
 			<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
 			<h3>Code project</h3>
 		</article>
-		<a href="">View project</a>
+		<a href="https://github.com/Trisjan/oba" target="_blank" rel="noopener noreferrer">View project</a>
 	</div>
 	<img src={OBA_MacBook} alt="OBA site in macbook mockup">
 </section>
@@ -89,6 +75,10 @@ onMount(async () => {
 	h1 {
 		font-size: 4rem;
 		font-weight: 500;
+	}
+
+	.line {
+		display: block;
 	}
 
 	.intro,
@@ -228,5 +218,36 @@ onMount(async () => {
 	.work > img {
 		width: 80vw;
 		object-fit: contain;
+	}
+
+	@media (min-width: 36.25rem) {
+		.intro {
+			position: relative;
+			align-items: flex-start;
+			padding: 0;
+			overflow: hidden;
+		} 
+
+		.intro > img {
+			position: absolute;
+			top: 0;
+			right: 0;
+			transform: translateX(50%) translateY(50%);
+			height: 40vh;
+			width: auto;
+			object-fit: cover;
+		}
+
+		.intro > .intro_text {
+			text-align: start;
+		}
+
+		.intro > .intro_text > h1 {
+			font-size: clamp(1.8rem, 7vw + 1rem, 8rem) ;
+		}
+
+		.intro > .intro_text > h1, p {
+			margin: 0;
+		}
 	}
 </style>

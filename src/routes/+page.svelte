@@ -1,5 +1,5 @@
 <script>
-import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook } from '$lib/index.js';
+import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook } from '$lib/index.js';
 </script>
 
 <svelte:head>
@@ -8,7 +8,14 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 </svelte:head>
 
 <section class="intro">
-	<img height="250" width="250" src={Mobile_logo} alt="Alifuru logo">
+	<picture>
+		<source srcset={Small_alifuru_logo} media="(max-width: 599px)" />
+		<source srcset={Big_alifuru_logo} media="(min-width: 600px)" />
+		<img 
+			src={Small_alifuru_logo}
+			alt="Alifuru logo"
+		/>
+	</picture>
 	<div class="intro_text">
 		<h1>
 			<span class="line">Trisjan</span>
@@ -85,7 +92,7 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 	.about,
 	.work {
 		min-height: 100vh;
-		width: 100vw;
+		width: 100%; /* changed from 100vw to 100% */
 		padding: 2rem 0;
 	}
 
@@ -127,7 +134,7 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 	}
 
 	.about > .about_top > img {
-		max-width: 100vw;
+		max-width: 100%; /* changed from 100vw to 100% */
 		height: 1.5rem;
 		object-fit: cover;
 	}
@@ -139,7 +146,7 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 		align-items: center;
 		justify-content: center; /* Verticaal en horizontaal centreren */
 		text-align: center;
-		width: 80vw;
+		width: 80%; /* changed from 80vw to 80% */
 		padding: 3rem 0;
 	}
 
@@ -161,7 +168,7 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 	}
 
 	.about > article > img {
-		width: 80vw;
+		width: 90%; 
 	}
 
 	.work {
@@ -182,7 +189,7 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 	}
 
 	.work > .work_top > img {
-		max-width: 100vw;
+		max-width: 100%; /* changed from 100vw to 100% */
 		height: 1.5rem;
 		object-fit: cover;
 	}
@@ -190,7 +197,7 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 	.work > .work_middle {
 		display: flex;
 		justify-content: space-between;
-		width: 80vw;
+		width: 80%; /* changed from 80vw to 80% */
 		margin: 2rem 0;
 	}
 
@@ -216,38 +223,64 @@ import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALif
 	}
 
 	.work > img {
-		width: 80vw;
+		width: 80%; /* changed from 80vw to 80% */
 		object-fit: contain;
 	}
 
-	@media (min-width: 36.25rem) {
+	@media (min-width: 37.5em) {
+		.intro,
+		.about,
+		.work {
+			padding: 0;
+		}
+
 		.intro {
 			position: relative;
 			align-items: flex-start;
 			padding: 0;
-			overflow: hidden;
+			width: 100%;     /* changed from 100vw to 100% */
+			height: 100vh;    /* of een vaste hoogte, afhankelijk van je layout */
+			overflow: hidden; /* voorkomt dat de helft van de afbeelding buiten beeld springt */
 		} 
 
-		.intro > img {
+		.intro > picture {
 			position: absolute;
-			top: 0;
+			top: 50%;
 			right: 0;
-			transform: translateX(50%) translateY(50%);
-			height: 40vh;
-			width: auto;
-			object-fit: cover;
+			transform: translateX(50%) translateY(-50%);
 		}
 
 		.intro > .intro_text {
 			text-align: start;
+			padding-left: 6%;
 		}
 
 		.intro > .intro_text > h1 {
-			font-size: clamp(1.8rem, 7vw + 1rem, 8rem) ;
+			font-size: clamp(1.8rem, 7vw + 1rem, 8rem);
+			line-height: 1em;
+		}
+
+		.intro > .intro_text > p {
+			font-size: clamp(1em, 1vw + 0.6em, 1.7rem);
 		}
 
 		.intro > .intro_text > h1, p {
 			margin: 0;
+		}
+		
+		.about {
+			padding-bottom: 2em;
+		}
+
+		.about > .about_top > section {
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 0 6%;
+		}
+
+		.about > .about_top > img {
+			height: 2rem;
+			/* margin-right: 1rem; */
 		}
 	}
 </style>

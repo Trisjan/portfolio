@@ -21,6 +21,13 @@
 </div>
 
 <style>
+	:global(html, body) {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		overflow-x: hidden;
+	}
+
 	.app {
 		display: flex;
 		flex-direction: column;
@@ -36,7 +43,6 @@
 		display: flex;
 		flex-direction: column;
 		margin: 0 auto;
-		box-sizing: border-box;
 	}
 
 	footer {
@@ -44,7 +50,6 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		/* padding: 12px; */
 	}
 
 	footer a {

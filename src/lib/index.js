@@ -19,7 +19,8 @@ export { default as Navigation } from './molecules/nav.svelte'
 // Hier export je alle images ---------------------------------------------------------------------------------------------------------------
 // Hier export je alle images ---------------------------------------------------------------------------------------------------------------
 // Hier export je alle images ---------------------------------------------------------------------------------------------------------------
-export { default as Mobile_logo } from './images/Alifuru_mobile.svg'
+export { default as Small_alifuru_logo } from './images/Alifuru_mobile.svg'
+export { default as Big_alifuru_logo } from './images/Alifuru_logo_big.svg'
 export { default as Hamburger_logo } from './images/Hamburger_menu.svg'
 export { default as Close_logo } from './images/Close_button.svg'
 export { default as About_logo } from './images/Alifuru_logo_white.svg'

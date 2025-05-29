@@ -9,8 +9,8 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 
 <section class="intro">
 	<picture>
-		<source srcset={Small_alifuru_logo} media="(max-width: 599px)" />
-		<source srcset={Big_alifuru_logo} media="(min-width: 600px)" />
+		<source srcset={Small_alifuru_logo} media="(max-width: 649px)" />
+		<source srcset={Big_alifuru_logo} media="(min-width: 650px)" />
 		<img 
 			src={Small_alifuru_logo}
 			alt="Alifuru logo"
@@ -21,7 +21,12 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			<span class="line">Trisjan</span>
 			<span class="line">Mustamu</span>
 		</h1>
-		<p>junior frontend developer / designer</p>
+		<p>
+			<span class="line">junior</span>
+			<span class="line"> frontend</span>
+			<span class="line"> developer /</span>
+			<span class="line"> designer</span>
+		</p>
 	</div>
 </section>
 
@@ -34,16 +39,18 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		<img src={Alifuru_leafs} alt="">
 	</div>
 	<article>
-		<p>
-			Altijd nieuwsgierig en klaar voor nieuwe uitdagingen in mijn carrière, 
-			ben ik opgewonden om mijn vaardigheden van tijdens mijn studie te gebruiken en echt iets te bereiken. 
-			Ik ben enthousiast om mijn opgedane vaardigheden tijdens mijn studie in te zetten en een betekenisvolle bijdrage te leveren in mijn vakgebied. 
-			Mijn doel is om niet alleen professioneel te groeien, maar ook om mijn kennis en expertise in te zetten voor het van anderen. 
-			Ik ben vastbesloten om mijn potentieel te benutten en een verder te groeien.
-		</p>
-		<button>
-			Contact
-		</button>
+		<section class="about_text">
+			<p>
+				"Altijd nieuwsgierig en klaar voor nieuwe uitdagingen in mijn carrière, 
+				ben ik opgewonden om mijn vaardigheden van tijdens mijn studie te gebruiken en echt iets te bereiken. 
+				Ik ben enthousiast om mijn opgedane vaardigheden tijdens mijn studie in te zetten en een betekenisvolle bijdrage te leveren in mijn vakgebied. 
+				Mijn doel is om niet alleen professioneel te groeien, maar ook om mijn kennis en expertise in te zetten voor het van anderen. 
+				Ik ben vastbesloten om mijn potentieel te benutten en een verder te groeien."
+			</p>
+			<button>
+				Contact
+			</button>
+		</section>
 		<img src={Photo_self} alt="My self">
 	</article>
 </section>
@@ -110,6 +117,10 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		margin-top: 0;
 	}
 
+	.intro > .intro_text > p > .line {
+		display: inline;
+	}
+
 	.about {
 		background-color: var(--color-bg-1);
 		color: var(--color-text-2);
@@ -150,13 +161,13 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		padding: 3rem 0;
 	}
 
-	.about > article > p {
-		text-align: center;
+	.about > article > .about_text > p {
 		margin: 0;
 		font-weight: 300;
+		font-style: italic;
 	}
 
-	.about > article > button {
+	.about > article > .about_text > button {
 		border: none;
 		background: none;
 		color: var(--color-text-2);
@@ -227,7 +238,7 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		object-fit: contain;
 	}
 
-	@media (min-width: 37.5em) {
+	@media (min-width: 40.625em) {
 		.intro,
 		.about,
 		.work {
@@ -256,12 +267,12 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		}
 
 		.intro > .intro_text > h1 {
-			font-size: clamp(1.8rem, 7vw + 1rem, 8rem);
+			font-size: clamp(1.8em, 7vw + 1rem, 9em);
 			line-height: 1em;
 		}
 
 		.intro > .intro_text > p {
-			font-size: clamp(1em, 1vw + 0.6em, 1.7rem);
+			font-size: clamp(1em, 1vw + 0.6em, 2em);
 		}
 
 		.intro > .intro_text > h1, p {
@@ -280,7 +291,148 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 
 		.about > .about_top > img {
 			height: 2rem;
-			/* margin-right: 1rem; */
+		}
+
+		.about > article {
+			flex-direction: column-reverse;
+			align-items: start;
+			width: 80%;
+		}
+
+		.about > article > .about_text {
+			align-items: end;
+			padding-top: 2rem;
+		}
+
+		.about > article > .about_text > p {
+			text-align: right;
+			width: 60%;
+		}
+
+		.about > article > .about_text > button {
+			margin-bottom: 0;
+		}
+
+		.about > article > img {
+			aspect-ratio: 5 / 4;
+			height: auto;
+			width: 45vw;
+			object-fit: cover;
+		}
+
+		.work > .work_top > section {
+			flex-direction: row-reverse;
+			justify-content: space-between;
+			padding: 0 6%;
+		}
+
+		.work > .work_top > section > h2 > .line {
+			display: inline;
+		}
+
+		.work > .work_top > img {
+			height: 2em;
+		}
+
+		.work > .work_middle {
+			margin: 0;
+			padding-top: 3em;
+			padding-bottom: 2em;
+		}
+		.work > img {
+			margin-bottom: 3em;
+			aspect-ratio: 16 / 9;
+			object-fit: cover;
+		}
+	}
+
+	@media (min-width: 65em) {
+		.intro > .intro_text > p {
+			text-align: right;
+			font-weight: 300;
+		}
+		.intro > .intro_text > p > .line {
+			display: block;
+		}
+
+		.intro > picture {
+			height: 70%;
+			width: auto;
+			max-height: 70vh;
+		}
+		.intro > picture > img {
+			height: 100%;
+			width: auto;
+			object-fit: contain;
+		}
+
+		.about,
+		.work {
+			flex-direction: column-reverse;
+		}
+
+		.about > .about_top,
+		.work > .work_top {
+			display: flex;
+			flex-direction: column-reverse;
+		}
+
+		.about > .about_top > section > img {
+			height: 100%;
+		}
+
+		.about > .about_top > section > h2 {
+			font-size: clamp(6rem, 0.6667rem + 8.2051vw, 8rem);
+			margin: 0;
+		}
+
+		.about > .about_top > img,
+		.work > .work_top > img {
+			width: 100vw;
+			height: auto;
+			min-height: 3em;
+			object-fit: block;
+			padding-bottom: 1em;
+		}
+
+		.about > article {
+			flex-direction: row-reverse;
+			justify-content: space-between;
+			align-items: center;
+			width: 88%;
+		}
+
+		.about > article > .about_text {
+			padding: 0;
+		}
+
+		.about > article > .about_text > p {
+			font-weight: 300;
+			font-size: 1.2em;
+			width: 90%;
+		}
+
+		.about > article > .about_text > button {
+			margin: 0;
+			padding-top: 2em;
+			font-size: 1.3em;
+			font-weight: 500;
+		}
+
+		.about > article > img {
+			aspect-ratio: 1 / 1	;
+			height: 50vh;
+			width: auto;
+		}
+
+		.work > .work_top > section > img {
+			height: 100%;
+			object-fit: fill;
+		}
+
+		.work > .work_top > section > h2 {
+			font-size: clamp(5rem, 0.6667rem + 8.2051vw, 8rem);
+			margin: 0;
 		}
 	}
 </style>

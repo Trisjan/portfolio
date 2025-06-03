@@ -1,6 +1,5 @@
 <script>
     import { onMount } from "svelte";
-    import { Mobile_logo, About_logo, Alifuru_leafs, Photo_self } from '$lib/index.js';
     
     const GithubAPI = 'https://api.github.com/users/';
     const Username = 'Trisjan';

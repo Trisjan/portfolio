@@ -1,125 +1,165 @@
 <script>
     import { Hamburger_logo, Close_logo } from "$lib/index.js";
-    import { onMount } from "svelte";
+    let sidebarOpen = false;
+    const navLinks = document.querySelectorAll('.navbar_contents a');
+    const media = window.matchMedia('(max-width: 65rem)');
 
-    let sidebarVisible = false;
 
-    function showSidebar() {
-        sidebarVisible = true;
+    media.addEventListener('change', (event) => {
+        handleMediaChange(event);
+    });
+    function handleMediaChange(event) {
+        const navbar = document.getElementById('navbar');
+        console.log('Media query changed:', event.matches);
+        if (event.matches) {
+            navbar.setAttribute('inert', '')
+        }
+        else {
+            navbar.removeAttribute('inert');
+            sidebarOpen = false; // Close sidebar when media query changes
+        }
     }
-
-    function hideSidebar() {
-        sidebarVisible = false;
-    }
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            sidebarOpen = false;
+        });
+    });
 </script>
 
-<!-- Sidebar Menu -->
-<nav class="sidebar" class:visible={sidebarVisible}>
-    <ul>
-        <li on:click={hideSidebar}>
-            <a href="#"><img src={Close_logo} alt="close button" height="26" width="26"></a>
-        </li>
-        <li><a href="/repositories">My work</a></li>
-        <li><a href="#">Contact</a></li>
-    </ul>
+<nav class="mobile_navbar">
+	<a href="/">Trisjan Mustamu</a>
+	<button
+		id="open-sidebar-button"
+		on:click={() => sidebarOpen = true}
+		aria-label="Open menu"
+		aria-expanded={sidebarOpen}
+		aria-controls="navbar"
+	>
+		<img src={Hamburger_logo} alt="Hamburger menu icon" width="30px" height="30px" />
+	</button>
 </nav>
 
-<!-- Hoofdmenu -->
-<nav>
-    <ul>
-        <li><a href="/">Trisjan Mustamu</a></li>
-        <li class="hideOnMobile"><a href="/repositories">My work</a></li>
-        <li class="hideOnMobile"><a href="#">Contact</a></li>
-        <li class="menu-button" on:click={showSidebar}>
-            <a href="#"><img src={Hamburger_logo} alt="hamburger menu" height="26" width="26"></a>
-        </li>
-    </ul>
+<nav class="navbar_contents" id="navbar" class:show={sidebarOpen}>
+	<ul>
+		<li>
+			<button
+				id="close-sidebar-button"
+				on:click={() => sidebarOpen = false}
+				aria-label="Close menu"
+			>
+				<img src={Close_logo} alt="Close menu icon" width="30px" height="30px" />
+			</button>
+		</li>
+		<li class="home-li"><a href="/">Trisjan Mustamu</a></li>
+		<li><a href="/" class="active-link">Home</a></li>
+		<li><a href="/repositories">My work</a></li>
+		<li><a href="#">Contact</a></li>
+        <li><a href="#work">Contact</a></li>
+	</ul>
 </nav>
+<div id="overlay" on:click={() => sidebarOpen = false} aria-hidden="true"></div>
 
 <style>
-    nav ul {
-        width: 100%;
+    .mobile_navbar {
+        display: none;
+    }
+    .navbar_contents > ul {
         list-style: none;
         display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        position: fixed;
-        margin: 0;
         padding: 0;
+		mix-blend-mode: difference;
+		color: white !important;
     }
 
-    nav ul li {
-        height: 3rem;
-    }
-
-    nav ul li a {
-        text-decoration: none;
-        height: 100%;
-        padding: 0 2rem;
-        color: var(--color-text-1);
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        text-transform: uppercase;
-    }
-
-    nav ul li:not(:first-child) a:hover {
-        color: red;
-    }
-    
-    nav ul li:first-child {
+    .navbar_contents .home-li {
         margin-right: auto;
     }
 
-    .sidebar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: 16rem;
-        z-index: 999;
-        background-color: var(--color-bg-0);
-        box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
-        
+    .navbar_contents a {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
+        text-decoration: none;
+        padding: 1rem 2rem;
+        transition: color 0.3s ease-in-out;
+        color: #fff;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+    }
 
+    .navbar_contents a:hover {
+        color: #ff0000;
+    }
+
+    .navbar_contents a.active-link {
+        text-decoration: underline solid;
+    }
+    #open-sidebar-button {  
+        background: none;
+        border: none;
         padding: 1rem;
-
-        /* Beginwaarden voor verborgen staat */
-        transform: translateX(100%);
-        opacity: 0;
-        pointer-events: none;
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        margin-left: auto;
+        cursor: pointer;
     }
-
-    /* Sidebar tonen */
-    .sidebar.visible {
-        transform: translateX(0);
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .sidebar li {
-        width: 100%;
-    }
-
-    .sidebar a {
-        width: 100%;
-    }
-
-    .menu-button {
+    #close-sidebar-button {
         display: none;
+        background: none;
+        border: none;
+        padding: 1rem 1rem 1rem 2.5rem;
+        cursor: pointer;
     }
 
-    @media (max-width: 800px) {
-        .hideOnMobile {
+    @media (max-width: 65rem) {
+        #open-sidebar-button, #close-sidebar-button {
+            display: block;
+        }
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9;
             display: none;
         }
-        .menu-button {
+        .mobile_navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            text-transform: uppercase;
+        }
+        .mobile_navbar a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .navbar_contents {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            height: 100vh;
+            width: min(20em, 100%);
+            z-index: 10;
+            background-color: #fff;
+            transition: right 0.3s ease-in-out;
+        }
+        .navbar_contents.show {
+            right: 0;
+        }
+        .navbar_contents.show ~ #overlay {
             display: block;
+        }
+        .navbar_contents ul {
+            flex-direction: column;
+            width: 100%;
+        }
+        .navbar_contents a {
+            width: 100%;
+            padding-left: 2.5rem;
+        }
+        .navbar_contents a.active-link {
+            text-decoration: none;
+        }
+        .navbar_contents .home-li {
+            margin-right: unset;
         }
     }
 </style>

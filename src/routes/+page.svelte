@@ -55,7 +55,7 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 	</article>
 </section>
 
-<section class="work">
+<section class="work" id="work">
 	<div class="work_top">
 		<section>
 			<img src={Alifuru_birds} alt="Alifuru birds">
@@ -67,14 +67,16 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		<img src={ALifuru_lines} alt="Alifuru lines">
 	</div>
 	<div class="work_middle">
-		<article>
-			<img src={OBA_logo} alt="logo">
-			<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
-			<h3>Code project</h3>
-		</article>
-		<a href="https://github.com/Trisjan/oba" target="_blank" rel="noopener noreferrer">View project</a>
+		<div class="work_middle_text">
+			<article>
+				<img src={OBA_logo} alt="logo">
+				<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
+				<h3>Code project</h3>
+			</article>
+			<a href="https://github.com/Trisjan/oba" target="_blank" rel="noopener noreferrer">View project</a>
+		</div>
+		<img src={OBA_MacBook} alt="OBA site in macbook mockup">
 	</div>
-	<img src={OBA_MacBook} alt="OBA site in macbook mockup">
 </section>
 
 <style>
@@ -207,34 +209,40 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 
 	.work > .work_middle {
 		display: flex;
+		flex-direction: column;
+		padding: 3rem 0;
+		width:  80%;
+	}
+
+	.work > .work_middle > .work_middle_text {
+		display: flex;
 		justify-content: space-between;
-		width: 80%; /* changed from 80vw to 80% */
 		margin: 2rem 0;
 	}
 
-	.work > .work_middle > article {
+	.work > .work_middle > .work_middle_text > article {
 		justify-content: flex-start;
 		/* max-width: 50vw; */
 	}
 
-	.work > .work_middle > article > h2, h3 {
+	.work > .work_middle > .work_middle_text > article > h2, h3 {
 		margin: 0;
 		text-transform: uppercase;
 	}
 
-	.work > .work_middle > article > h3 {
+	.work > .work_middle > .work_middle_text > article > h3 {
 		font-weight: 300;
 	}
 
-	.work > .work_middle > a {
+	.work > .work_middle > .work_middle_text > a {
 		align-self: self-end;
 		text-transform: uppercase;
 		color: var(--color-text-1);
 		font-weight: 500;
 	}
 
-	.work > img {
-		width: 80%; /* changed from 80vw to 80% */
+	.work > .work_middle > img {
+		width: 100%; /* changed from 80vw to 80% */
 		object-fit: contain;
 	}
 
@@ -334,12 +342,12 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			height: 2em;
 		}
 
-		.work > .work_middle {
+		.work > .work_middle > .work_middle_text {
 			margin: 0;
 			padding-top: 3em;
 			padding-bottom: 2em;
 		}
-		.work > img {
+		.work > .work_middle > img {
 			margin-bottom: 3em;
 			aspect-ratio: 16 / 9;
 			object-fit: cover;
@@ -433,6 +441,46 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		.work > .work_top > section > h2 {
 			font-size: clamp(5rem, 0.6667rem + 8.2051vw, 8rem);
 			margin: 0;
+		}
+
+		.work > .work_middle {
+			flex-direction: row-reverse;
+			justify-content: space-between;
+			align-items: stretch; /* was center, nu stretch zodat children de volledige hoogte pakken */
+			width: 90%;
+		}
+
+		.work > .work_middle > .work_middle_text {
+			flex-direction: column;
+			justify-content: space-between;
+			align-self: stretch; /* zorgt dat de child de volledige hoogte van de parent pakt */
+			text-align: right;
+			padding: 0;
+		}
+
+		.work > .work_middle > .work_middle_text > article > img {
+			height: auto;
+			width: 55%;
+			object-fit: contain;
+			padding-bottom: 1em;
+		}
+
+		.work > .work_middle > .work_middle_text > article > h2 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.work > .work_middle > .work_middle_text > a {
+			font-size: 1.3rem;
+			margin-bottom: 1rem;
+		}
+
+		.work > .work_middle > img {
+			aspect-ratio: 3 / 2;
+			width: 60%;
+			height: 60vh;
+			object-fit: cover;
+			margin-bottom: 0;
 		}
 	}
 </style>

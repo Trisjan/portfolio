@@ -1,15 +1,16 @@
 <script>
     import { Hamburger_logo, Close_logo } from "$lib/index.js";
-    let sidebarOpen = false;
-    const navLinks = document.querySelectorAll('.navbar_contents a');
-    const media = window.matchMedia('(max-width: 65rem)');
+    import { onMount } from 'svelte';
 
-
-    media.addEventListener('change', (event) => {
+    onMount(() => {
+        // Ensure the navbar is inert on initial load for mobile view
+        const media = window.matchMedia('(max-width: 65rem)');
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.querySelectorAll('.navbar_contents a');
+            media.addEventListener('change', (event) => {
         handleMediaChange(event);
     });
     function handleMediaChange(event) {
-        const navbar = document.getElementById('navbar');
         console.log('Media query changed:', event.matches);
         if (event.matches) {
             navbar.setAttribute('inert', '')
@@ -24,6 +25,8 @@
             sidebarOpen = false;
         });
     });
+    });
+    let sidebarOpen = false;
 </script>
 
 <nav class="mobile_navbar">

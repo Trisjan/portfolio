@@ -1,5 +1,5 @@
 <script>
-import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook } from '$lib/index.js';
+import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook, WOGO_logo, WOGO_mockup, Visual_thinking_logo, Visual_thinking_mockup } from '$lib/index.js';
 </script>
 
 <svelte:head>
@@ -30,13 +30,13 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 	</div>
 </section>
 
-<section class="about">
+<section class="about" id="about">
 	<div class="about_top">
 		<section>
-			<img src={About_logo} alt="">
+			<img src={About_logo} alt="About logo" loading="lazy">
 			<h2>About me</h2>
 		</section>
-		<img src={Alifuru_leafs} alt="">
+		<img src={Alifuru_leafs} alt="Alifuru leafs" loading="lazy">
 	</div>
 	<article>
 		<section class="about_text">
@@ -44,38 +44,73 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 				"Altijd nieuwsgierig en klaar voor nieuwe uitdagingen in mijn carrière, 
 				ben ik opgewonden om mijn vaardigheden van tijdens mijn studie te gebruiken en echt iets te bereiken. 
 				Ik ben enthousiast om mijn opgedane vaardigheden tijdens mijn studie in te zetten en een betekenisvolle bijdrage te leveren in mijn vakgebied. 
-				Mijn doel is om niet alleen professioneel te groeien, maar ook om mijn kennis en expertise in te zetten voor het van anderen. 
+				Mijn doel is om niet alleen professioneel te groeien, maar ook om mijn kennis en expertise in te zetten voor anderen. 
 				Ik ben vastbesloten om mijn potentieel te benutten en een verder te groeien."
 			</p>
-			<button>
-				Contact
-			</button>
+			<section class="about_contact">
+				<p>
+					Contact
+				</p>
+				<a href="mailto:TrisjanM@gmail.com">TrisjanM@gmail.com</a>
+				<a href="tel:+31637281639">+31 637281639</a>
+			</section>
 		</section>
-		<img src={Photo_self} alt="My self">
+		<img src={Photo_self} alt="My self" loading="lazy">
 	</article>
 </section>
 
 <section class="work" id="work">
 	<div class="work_top">
 		<section>
-			<img src={Alifuru_birds} alt="Alifuru birds">
+			<img src={Alifuru_birds} alt="Alifuru birds" loading="lazy">
 			<h2>
 				<span class="line">Selected</span>
 				<span class="line">work</span>
 			</h2>
 		</section>
-		<img src={ALifuru_lines} alt="Alifuru lines">
+		<img src={ALifuru_lines} alt="Alifuru lines" loading="lazy">
 	</div>
 	<div class="work_middle">
-		<div class="work_middle_text">
-			<article>
-				<img src={OBA_logo} alt="logo">
-				<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
-				<h3>Code project</h3>
-			</article>
-			<a href="https://github.com/Trisjan/oba" target="_blank" rel="noopener noreferrer">View project</a>
+		<div class="work_middle_carrousel">
+			<div class="work_middle_carrousel_card" id="work1">
+				<div class="work_middle_text">
+					<article>
+						<img src={OBA_logo} alt="logo">
+						<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
+						<h3>Code project</h3>
+					</article>
+					<a href="https://github.com/Trisjan/oba" target="_blank" rel="noopener noreferrer">View project</a>
+				</div>
+				<img src={OBA_MacBook} alt="OBA site in macbook mockup">
+			</div>
+			<div class="work_middle_carrousel_card" id="work2">
+				<div class="work_middle_text">
+					<article>
+						<img src={WOGO_logo} alt="logo" loading="lazy">
+						<h2>WOGO<br>cocktail<br>walks</h2>
+						<h3>Code project</h3>
+					</article>
+					<a href="https://github.com/fdnd-agency/wogo" target="_blank" rel="noopener noreferrer">View project</a>
+				</div>
+				<img src={WOGO_mockup} alt="OBA site in macbook mockup" loading="lazy">
+			</div>
+			<div class="work_middle_carrousel_card" id="work3">
+				<div class="work_middle_text">
+					<article>
+						<img src={Visual_thinking_logo} alt="logo" loading="lazy">
+						<h2>Visual<br>Thinking<br>HBO</h2>
+						<h3>Code project</h3>
+					</article>
+					<a href="https://github.com/fdnd-agency/visual-thinking" target="_blank" rel="noopener noreferrer">View project</a>
+				</div>
+				<img src={Visual_thinking_mockup} alt="OBA site in macbook mockup" loading="lazy">
+			</div>
 		</div>
-		<img src={OBA_MacBook} alt="OBA site in macbook mockup">
+		<div class="work_carrousel_buttons">
+			<a href="#work1"></a>
+			<a href="#work2"></a>
+			<a href="#work3"></a>
+		</div>
 	</div>
 </section>
 
@@ -169,15 +204,31 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		font-style: italic;
 	}
 
-	.about > article > .about_text > button {
+	.about > article > .about_text > .about_contact {
 		border: none;
 		background: none;
 		color: var(--color-text-2);
-		text-transform: uppercase;
-		text-decoration: underline;
 		margin: 2.5rem 0;
 		font-size: 1.2rem;
 		font-weight: 500;
+	}
+
+	.about > article > .about_text > .about_contact > p {
+		color: var(--color-text-2);
+		margin-bottom: 0.4rem;
+		font-size: 1.15rem;
+	}
+	
+
+	.about > article > .about_text > .about_contact > a {
+		color: var(--color-text-2);
+		text-decoration: underline;
+		font-size: 1.1rem;
+		font-weight: 300;
+		transition: color 0.3s ease;
+			&:hover {
+				color: #ff0000;
+			}
 	}
 
 	.about > article > img {
@@ -208,42 +259,102 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 	}
 
 	.work > .work_middle {
-		display: flex;
-		flex-direction: column;
-		padding: 3rem 0;
-		width:  80%;
+		overflow: hidden;
 	}
 
-	.work > .work_middle > .work_middle_text {
+	.work > .work_middle > .work_middle_carrousel {
+		display: flex;
+		flex-direction: row;
+		padding-top: 3rem;
+		width: 80vw;
+
+		overflow-x: auto;
+		scroll-snap-type: x mandatory; /* zorgt voor een 'snapping' effect bij scrollen */
+
+		scroll-behavior: smooth; /* zorgt voor een vloeiende scrollbeweging */
+		-ms-overflow-style: none; /* voor Internet Explorer en Edge */
+		-webkit-overflow-scrolling: touch; /* voor iOS */
+
+		&::-webkit-scrollbar {
+			width: 10px;
+			height: 10px;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: var(--color-text-1);
+			border-radius: 10px;
+		}
+		&::-webkit-scrollbar-track {
+			background-color: transparent;
+		}
+	}
+
+	
+
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card {
+		scroll-snap-align: start; /* zorgt ervoor dat de cards netjes uitlijnen bij het scrollen */
+		flex-shrink: 0;
+		width: 100%;
+		margin-right: 2rem; /* ruimte tussen de cards */
+
+		&:last-child {
+			margin-right: 0rem; /* ruimte tussen de cards */
+		}
+	}
+
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text {
 		display: flex;
 		justify-content: space-between;
-		margin: 2rem 0;
+		margin-bottom: 1rem;
 	}
 
-	.work > .work_middle > .work_middle_text > article {
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article {
 		justify-content: flex-start;
 		/* max-width: 50vw; */
 	}
 
-	.work > .work_middle > .work_middle_text > article > h2, h3 {
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > img {
+		height: 5rem;
+		width: auto;
+		object-fit: contain;
+		margin-bottom: 0.5rem;
+	}
+
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > h2, h3 {
 		margin: 0;
 		text-transform: uppercase;
 	}
 
-	.work > .work_middle > .work_middle_text > article > h3 {
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > h3 {
 		font-weight: 300;
 	}
 
-	.work > .work_middle > .work_middle_text > a {
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > a {
 		align-self: self-end;
 		text-transform: uppercase;
 		color: var(--color-text-1);
 		font-weight: 500;
 	}
 
-	.work > .work_middle > img {
+	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > img {
 		width: 100%; /* changed from 80vw to 80% */
-		object-fit: contain;
+		height: 30vh;
+		object-fit: cover;
+		display: block;
+	}
+
+	.work > .work_middle > .work_carrousel_buttons {
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		margin: 3rem;
+	}
+
+	.work > .work_middle > .work_carrousel_buttons > a {
+		height: 1.5rem;
+		width: 1.5rem;
+		background-color: grey;
+		border-radius: 2rem;
+		display: flex;
 	}
 
 	@media (min-width: 40.625em) {
@@ -317,8 +428,21 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			width: 60%;
 		}
 
-		.about > article > .about_text > button {
+		.about > article > .about_text > .about_contact {
 			margin-bottom: 0;
+			display: flex;
+			align-items: end;
+		}
+
+		.about > article > .about_text > .about_contact > p {
+			font-weight: 500;
+			padding-bottom: 0.5rem;
+			font-size: 1.25em;
+		}
+
+		.about > article > .about_text > .about_contact > a {
+			font-size: 1.2rem;
+			font-weight: 300;
 		}
 
 		.about > article > img {
@@ -342,15 +466,23 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			height: 2em;
 		}
 
-		.work > .work_middle > .work_middle_text {
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text {
 			margin: 0;
-			padding-top: 3em;
 			padding-bottom: 2em;
 		}
-		.work > .work_middle > img {
-			margin-bottom: 3em;
-			aspect-ratio: 16 / 9;
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > a {
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: #ff0000;
+			}
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > img {
+			aspect-ratio: 6 / 4;
 			object-fit: cover;
+			height: auto;
 		}
 	}
 
@@ -420,7 +552,7 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			width: 90%;
 		}
 
-		.about > article > .about_text > button {
+		.about > article > .about_text > .about_contact {
 			margin: 0;
 			padding-top: 2em;
 			font-size: 1.3em;
@@ -444,43 +576,52 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		}
 
 		.work > .work_middle {
-			flex-direction: row-reverse;
-			justify-content: space-between;
 			align-items: stretch; /* was center, nu stretch zodat children de volledige hoogte pakken */
-			width: 90%;
 		}
 
-		.work > .work_middle > .work_middle_text {
-			flex-direction: column;
+		.work > .work_middle > .work_middle_carrousel {
+			width: 88vw; /* changed from 80vw to 100% */
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card {
+			flex-direction: row-reverse;
 			justify-content: space-between;
+			display: flex;
+			padding-top: 2rem;
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text {
+			flex-direction: column;
 			align-self: stretch; /* zorgt dat de child de volledige hoogte van de parent pakt */
 			text-align: right;
 			padding: 0;
 		}
 
-		.work > .work_middle > .work_middle_text > article > img {
-			height: auto;
-			width: 55%;
-			object-fit: contain;
-			padding-bottom: 1em;
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > img {
+			height: 12rem;
+			width: auto;
 		}
+			.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > img {
+		height: 6rem;
+		width: auto;
+		object-fit: contain;
+		margin-bottom: 0.5rem;
+	}
 
-		.work > .work_middle > .work_middle_text > article > h2 {
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > h2 {
 			font-size: 2.5rem;
 			margin-bottom: 0.5rem;
 		}
 
-		.work > .work_middle > .work_middle_text > a {
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > a {
 			font-size: 1.3rem;
-			margin-bottom: 1rem;
 		}
 
-		.work > .work_middle > img {
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > img {
 			aspect-ratio: 3 / 2;
 			width: 60%;
 			height: 60vh;
 			object-fit: cover;
-			margin-bottom: 0;
 		}
 	}
 </style>

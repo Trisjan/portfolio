@@ -55,9 +55,8 @@
 		</li>
 		<li class="home-li"><a href="/">Trisjan Mustamu</a></li>
 		<li><a href="/" class="active-link">Home</a></li>
-		<li><a href="/repositories">My work</a></li>
-		<li><a href="#">Contact</a></li>
-        <li><a href="#work">Contact</a></li>
+		<li><a href="#about">About</a></li>
+		<li><a href="#work">My work</a></li>
 	</ul>
 </nav>
 <div id="overlay" on:click={() => sidebarOpen = false} aria-hidden="true"></div>
@@ -89,7 +88,7 @@
     }
 
     .navbar_contents a:hover {
-        color: #ff0000;
+        color: #00eeff;
     }
 
     .navbar_contents a.active-link {

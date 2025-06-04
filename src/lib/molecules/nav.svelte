@@ -1,41 +1,17 @@
 <script>
     import { Hamburger_logo, Close_logo } from "$lib/index.js";
-    import { onMount } from 'svelte';
     import { gsap } from "gsap";
+    import { onMount } from 'svelte';
+    let sidebarOpen = false;
 
     onMount(() => {
         let tl = gsap.timeline();
-
         tl.from('nav', {
             duration: 1,
             opacity: 0,
             y: -300,
-        })
-
-        // Ensure the navbar is inert on initial load for mobile view
-        const media = window.matchMedia('(max-width: 65rem)');
-        const navbar = document.getElementById('navbar');
-        const navLinks = document.querySelectorAll('.navbar_contents a');
-            media.addEventListener('change', (event) => {
-        handleMediaChange(event);
-    });
-    function handleMediaChange(event) {
-        console.log('Media query changed:', event.matches);
-        if (event.matches) {
-            navbar.setAttribute('inert', '')
-        }
-        else {
-            navbar.removeAttribute('inert');
-            sidebarOpen = false; // Close sidebar when media query changes
-        }
-    }
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            sidebarOpen = false;
         });
     });
-    });
-    let sidebarOpen = false;
 </script>
 
 <nav class="mobile_navbar">
@@ -62,10 +38,10 @@
 				<img src={Close_logo} alt="Close menu icon" width="30px" height="30px" />
 			</button>
 		</li>
-		<li class="home-li"><a href="/">Trisjan Mustamu</a></li>
-		<li><a href="/" class="active-link">Home</a></li>
-		<li><a href="#about">About</a></li>
-		<li><a href="#work">My work</a></li>
+		<li class="home-li"><a href="/" on:click={() => sidebarOpen = false}>Trisjan Mustamu</a></li>
+		<li><a href="/" class="active-link" on:click={() => sidebarOpen = false}>Home</a></li>
+		<li><a href="#about" on:click={() => sidebarOpen = false}>About</a></li>
+		<li><a href="#work" on:click={() => sidebarOpen = false}>My work</a></li>
 	</ul>
 </nav>
 <div id="overlay" on:click={() => sidebarOpen = false} aria-hidden="true"></div>
@@ -78,8 +54,7 @@
         list-style: none;
         display: flex;
         padding: 0;
-		mix-blend-mode: difference;
-		color: white !important;
+        font-weight: 700;
     }
 
     .navbar_contents .home-li {
@@ -91,13 +66,13 @@
         text-decoration: none;
         padding: 1rem 2rem;
         transition: color 0.3s ease-in-out;
-        color: #fff;
+        color: #000;
         text-transform: uppercase;
         font-size: 1.2rem;
     }
 
     .navbar_contents a:hover {
-        color: #00eeff;
+        color: #ff0000;
     }
 
     .navbar_contents a.active-link {

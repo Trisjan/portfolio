@@ -1,8 +1,17 @@
 <script>
     import { Hamburger_logo, Close_logo } from "$lib/index.js";
     import { onMount } from 'svelte';
+    import { gsap } from "gsap";
 
     onMount(() => {
+        let tl = gsap.timeline();
+
+        tl.from('nav', {
+            duration: 1,
+            opacity: 0,
+            y: -300,
+        })
+
         // Ensure the navbar is inert on initial load for mobile view
         const media = window.matchMedia('(max-width: 65rem)');
         const navbar = document.getElementById('navbar');
@@ -142,6 +151,9 @@
             z-index: 10;
             background-color: #fff;
             transition: right 0.3s ease-in-out;
+        }
+        .navbar_contents .home-li {
+            display: none;
         }
         .navbar_contents.show {
             right: 0;

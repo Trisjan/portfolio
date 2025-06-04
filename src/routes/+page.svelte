@@ -1,5 +1,50 @@
 <script>
 import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_self, Alifuru_birds, ALifuru_lines, OBA_logo, OBA_MacBook, WOGO_logo, WOGO_mockup, Visual_thinking_logo, Visual_thinking_mockup } from '$lib/index.js';
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { SplitText } from 'gsap/dist/SplitText';
+
+import { onMount } from 'svelte';
+
+onMount(() => {
+	gsap.registerPlugin(ScrollTrigger);
+	gsap.registerPlugin(SplitText);
+
+	let tl = gsap.timeline();
+	let splitName = SplitText.create('.intro_text h1', {
+		type: 'chars',
+	});
+	let splitFunction = SplitText.create('.intro_text h4', {
+		type: 'chars',
+	});
+
+	tl.from('.intro_picture', {
+		duration: 2,
+		opacity: 0,
+		x: 1500,
+		rotate: 360,
+		ease: 'power2.out',
+	})
+	tl.from(splitName.chars, {
+		duration: 0.5,
+		opacity: 0,
+		y: 50,
+		stagger: {
+			amount: 0.6
+		},
+		ease: 'power2.out',
+	}, '<=0.5');
+	tl.from(splitFunction.chars, {
+		duration: 0.5,
+		opacity: 0,
+		y: 50,
+		stagger: {
+			amount: 0.6
+		},
+		ease: 'power2.out',
+	}, '-=0.5');
+
+});
 </script>
 
 <svelte:head>
@@ -8,7 +53,7 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 </svelte:head>
 
 <section class="intro">
-	<picture>
+	<picture class="intro_picture">
 		<source srcset={Small_alifuru_logo} media="(max-width: 649px)" />
 		<source srcset={Big_alifuru_logo} media="(min-width: 650px)" />
 		<img 
@@ -21,12 +66,12 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			<span class="line">Trisjan</span>
 			<span class="line">Mustamu</span>
 		</h1>
-		<p>
+		<h4>
 			<span class="line">junior</span>
 			<span class="line"> frontend</span>
 			<span class="line"> developer /</span>
 			<span class="line"> designer</span>
-		</p>
+		</h4>
 	</div>
 </section>
 
@@ -149,12 +194,12 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 		margin-bottom: 0;
 	}
 
-	.intro > .intro_text > p {
+	.intro > .intro_text > h4 {
 		font-weight: lighter;
 		margin-top: 0;
 	}
 
-	.intro > .intro_text > p > .line {
+	.intro > .intro_text > h4 > .line {
 		display: inline;
 	}
 
@@ -390,7 +435,7 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 			line-height: 1em;
 		}
 
-		.intro > .intro_text > p {
+		.intro > .intro_text > h4 {
 			font-size: clamp(1em, 1vw + 0.6em, 2em);
 		}
 
@@ -487,11 +532,11 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 	}
 
 	@media (min-width: 65em) {
-		.intro > .intro_text > p {
+		.intro > .intro_text > h4 {
 			text-align: right;
 			font-weight: 300;
 		}
-		.intro > .intro_text > p > .line {
+		.intro > .intro_text > h4 > .line {
 			display: block;
 		}
 

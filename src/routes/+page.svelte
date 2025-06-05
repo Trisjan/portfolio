@@ -3,18 +3,26 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from 'gsap/dist/SplitText';
-
 import { onMount } from 'svelte';
+let activeSection = '';
 
 onMount(() => {
-	gsap.registerPlugin(ScrollTrigger);
-	gsap.registerPlugin(SplitText);
+	gsap.registerPlugin(ScrollTrigger, SplitText);
 
 	let tl = gsap.timeline();
 	let splitName = SplitText.create('.intro_text h1', {
 		type: 'chars',
 	});
 	let splitFunction = SplitText.create('.intro_text h4', {
+		type: 'chars',
+	});
+	let splitAboutTitle = SplitText.create('.about_top > section > h2', {
+		type: 'chars',
+	});
+	let splitAboutText = SplitText.create('.about_text > p', {
+		type: 'words',
+	});
+	let splitWorkTitle = SplitText.create('.work_top > section > h2', {
 		type: 'chars',
 	});
 
@@ -43,7 +51,147 @@ onMount(() => {
 		},
 		ease: 'power2.out',
 	}, '-=0.5');
+	
+	gsap.from('.about_top > img', {
+		duration: 1,
+		x: 1500,
+		ease: 'power2.out',
+		scrollTrigger: {
+			trigger: '.about_top',
+			start: 'top 90%',
+		}
+	});
 
+	gsap.from('.about_top > section > img', {
+		duration: 1,
+		x: -1500,
+		rotate: -360,
+		delay: 0.4,
+		ease: 'power2.out',
+		scrollTrigger: {
+			trigger: '.about_top',
+			start: 'top 90%',
+		}
+	});
+
+	gsap.from(splitAboutTitle.chars, {
+		duration: 0.5,
+		opacity: 0,
+		y: -50,
+		delay: 0.2,
+		ease: 'power2.out',
+		stagger: {
+			amount: 0.6
+		},
+		scrollTrigger: {
+			trigger: '.about_top',
+			start: 'top 90%',
+		}
+	});
+
+	gsap.from('.about > article > img', {
+		duration: 1,
+		opacity: 0,
+		x: -50,
+		ease: 'power2.out',
+		scrollTrigger: {
+			trigger: '.about_text',
+			start: '80% 90%',
+		}
+	});
+
+	gsap.from(splitAboutText.words, {
+		duration: 0.5,
+		opacity: 0,
+		y: 50,
+		ease: 'power2.out',
+		stagger: {
+			amount: 0.6,
+		},
+		scrollTrigger: {
+			trigger: '.about_text',
+			start: 'top 90%',
+		}
+	});
+
+	gsap.from('.about_contact', {
+		duration: 1,
+		opacity: 0,
+		x: 50,
+		ease: 'power2.out',
+		scrollTrigger: {
+			trigger: '.about_contact',
+			start: 'top 90%',
+		}
+	})
+
+	gsap.from(splitWorkTitle.chars, {
+		duration: 0.5,
+		opacity: 0,
+		delay: 0.2,
+		y: -50,
+		ease: 'power2.out',
+		stagger: {
+			amount: 0.6,
+			from: 'random'
+		},
+		scrollTrigger: {
+			trigger: '.work_top',
+			start: 'top 90%',
+		}
+	});
+
+	gsap.from('.work_top > img', {
+		duration: 1,
+		x: -1500,
+		ease: 'power2.out',
+		scrollTrigger: {
+			trigger: '.work_top',
+			start: 'top 90%',
+		}
+	});
+
+	gsap.from('.work_top > section > img', {
+		duration: 1,
+		x: 1500,
+		rotate: -360,
+		ease: 'power2.out',
+		delay: 0.4,
+		scrollTrigger: {
+			trigger: '.work_top',
+			start: 'top 90%',
+		}
+	});
+
+	gsap.from('.work_middle_carrousel_card', {
+		duration: 1,
+		x: '-10%',
+		ease: 'power2.in',
+		scrollTrigger: {
+			trigger: '.work_middle',
+			start: 'top 90%',
+		}
+	});
+
+    // IDs van de secties die je wilt observeren
+    const sectionIds = ['about', 'work'];
+    const sections = sectionIds.map(id => document.getElementById(id));
+    const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5 // 50% in beeld
+    };
+    const observer = new window.IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                activeSection = entry.target.id;
+            }
+        });
+    }, options);
+    sections.forEach(section => {
+        if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
 });
 </script>
 
@@ -69,7 +217,7 @@ onMount(() => {
 		<h4>
 			<span class="line">junior</span>
 			<span class="line"> frontend</span>
-			<span class="line"> developer /</span>
+			<span class="line"> developer &</span>
 			<span class="line"> designer</span>
 		</h4>
 	</div>
@@ -86,11 +234,11 @@ onMount(() => {
 	<article>
 		<section class="about_text">
 			<p>
-				"Altijd nieuwsgierig en klaar voor nieuwe uitdagingen in mijn carrière, 
-				ben ik opgewonden om mijn vaardigheden van tijdens mijn studie te gebruiken en echt iets te bereiken. 
-				Ik ben enthousiast om mijn opgedane vaardigheden tijdens mijn studie in te zetten en een betekenisvolle bijdrage te leveren in mijn vakgebied. 
+				"Altijd nieuwsgierig en klaar voor nieuwe uitdagingen in mijn carrière. 
+				Ik ben opgewonden om mijn vaardigheden van tijdens mijn studie te gebruiken en echt iets te bereiken. 
+				Enthousiast ben ik om mijn opgedane vaardigheden tijdens mijn studie in te zetten en een betekenisvolle bijdrage te leveren in mijn vakgebied. 
 				Mijn doel is om niet alleen professioneel te groeien, maar ook om mijn kennis en expertise in te zetten voor anderen. 
-				Ik ben vastbesloten om mijn potentieel te benutten en een verder te groeien."
+				Ik ben vastbesloten om mijn potentieel te benutten en verder te groeien."
 			</p>
 			<section class="about_contact">
 				<p>
@@ -151,11 +299,11 @@ onMount(() => {
 				<img src={Visual_thinking_mockup} alt="OBA site in macbook mockup" loading="lazy">
 			</div>
 		</div>
-		<div class="work_carrousel_buttons">
+		<nav class="work_carrousel_buttons">
 			<a href="#work1"></a>
 			<a href="#work2"></a>
 			<a href="#work3"></a>
-		</div>
+		</nav>
 	</div>
 </section>
 
@@ -325,7 +473,6 @@ onMount(() => {
 			height: 10px;
 		}
 		&::-webkit-scrollbar-thumb {
-			background-color: var(--color-text-1);
 			border-radius: 10px;
 		}
 		&::-webkit-scrollbar-track {
@@ -400,6 +547,11 @@ onMount(() => {
 		background-color: grey;
 		border-radius: 2rem;
 		display: flex;
+	}
+
+	.work_carrousel_buttons > a.active-anchor {
+		background-color: #ff0000;
+		box-shadow: 0 0 0 2px #ff000044;
 	}
 
 	@media (min-width: 40.625em) {

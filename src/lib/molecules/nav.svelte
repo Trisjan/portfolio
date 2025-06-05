@@ -10,6 +10,7 @@
             duration: 1,
             opacity: 0,
             y: -300,
+            clearProps: 'transform'
         });
     });
 </script>

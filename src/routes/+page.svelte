@@ -330,7 +330,7 @@ onMount(() => {
 	.work {
 		min-height: 100vh;
 		width: 100%; /* changed from 100vw to 100% */
-		padding: 2rem 0;
+		padding: 1rem 0;
 	}
 
 	.intro {
@@ -538,7 +538,7 @@ onMount(() => {
 		display: flex;
 		justify-content: center;
 		gap: 1rem;
-		margin: 3rem;
+		margin-top: 1.5rem;
 	}
 
 	.work > .work_middle > .work_carrousel_buttons > a {
@@ -547,11 +547,6 @@ onMount(() => {
 		background-color: grey;
 		border-radius: 2rem;
 		display: flex;
-	}
-
-	.work_carrousel_buttons > a.active-anchor {
-		background-color: #ff0000;
-		box-shadow: 0 0 0 2px #ff000044;
 	}
 
 	@media (min-width: 40.625em) {
@@ -819,6 +814,10 @@ onMount(() => {
 			width: 60%;
 			height: 60vh;
 			object-fit: cover;
+		}
+
+		.work > .work_middle > .work_carrousel_buttons {
+			margin-bottom: 1rem;
 		}
 	}
 </style>

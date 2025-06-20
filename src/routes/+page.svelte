@@ -272,7 +272,7 @@ onMount(() => {
 						<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
 						<h3>Code project</h3>
 					</article>
-					<a href="https://github.com/Trisjan/oba" target="_blank" rel="noopener noreferrer">View project</a>
+					<a href="https://mijn-oba.netlify.app/" target="_blank" rel="noopener noreferrer">View project</a>
 				</div>
 				<img src={OBA_MacBook} alt="OBA site in macbook mockup">
 			</div>
@@ -283,7 +283,7 @@ onMount(() => {
 						<h2>WOGO<br>cocktail<br>walks</h2>
 						<h3>Code project</h3>
 					</article>
-					<a href="https://github.com/fdnd-agency/wogo" target="_blank" rel="noopener noreferrer">View project</a>
+					<a href="https://wogo.agency.fdnd.nl/" target="_blank" rel="noopener noreferrer">View project</a>
 				</div>
 				<img src={WOGO_mockup} alt="OBA site in macbook mockup" loading="lazy">
 			</div>
@@ -294,7 +294,7 @@ onMount(() => {
 						<h2>Visual<br>Thinking<br>HBO</h2>
 						<h3>Code project</h3>
 					</article>
-					<a href="https://github.com/fdnd-agency/visual-thinking" target="_blank" rel="noopener noreferrer">View project</a>
+					<a href="https://visualthinking.dev.fdnd.nl/" target="_blank" rel="noopener noreferrer">View project</a>
 				</div>
 				<img src={Visual_thinking_mockup} alt="OBA site in macbook mockup" loading="lazy">
 			</div>

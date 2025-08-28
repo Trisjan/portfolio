@@ -245,7 +245,6 @@ onMount(() => {
 					Contact
 				</p>
 				<a href="mailto:TrisjanM@gmail.com">TrisjanM@gmail.com</a>
-				<a href="tel:+31637281639">+31 637281639</a>
 			</section>
 		</section>
 		<img src={Photo_self} alt="My self" loading="lazy">

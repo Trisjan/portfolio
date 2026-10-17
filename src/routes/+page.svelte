@@ -360,7 +360,7 @@ onMount(() => {
 	<meta name="description" content="Trisjan's portfolio" />
 </svelte:head>
 
-<section class="intro">
+<section class="intro" id="home">
 	<picture class="intro_picture">
 		<source srcset={Small_alifuru_logo} media="(max-width: 649px)" />
 		<source srcset={Big_alifuru_logo} media="(min-width: 650px)" />

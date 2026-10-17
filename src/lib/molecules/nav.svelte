@@ -1,19 +1,20 @@
 <script>
     import { About_logo, Alifuru_leafs } from "$lib/index.js";
     import { lockScroll, unlockScroll, scrollToTarget } from "$lib/smoothScroll.js";
-    import { goto } from "$app/navigation";
+    import { goto, afterNavigate } from "$app/navigation";
     import { gsap } from "gsap";
     import { onMount } from 'svelte';
 
     const links = [
-        { href: '/', label: 'Home' },
-        { href: '#about', label: 'About' },
-        { href: '#work', label: 'My work' },
+        { href: '/', label: 'Home', section: 'home' },
+        { href: '#about', label: 'About', section: 'about' },
+        { href: '#work', label: 'My work', section: 'work' },
     ];
 
     let menuOpen = $state(false);
     let headerHidden = $state(false);
     let scrolled = $state(false);
+    let activeSection = $state('');
     let lastScrollY = 0;
 
     /** @type {HTMLButtonElement} */
@@ -112,7 +113,7 @@
      * @param {MouseEvent} event
      * @param {string} href
      */
-    function handleMenuLink(event, href) {
+    function handleLink(event, href) {
         event.preventDefault();
         closeMenu({ restoreFocus: false });
 
@@ -126,10 +127,23 @@
         if (target !== null) scrollToTarget(/** @type {HTMLElement | number} */ (target));
     }
 
+    // De sectie waarvan de bovenkant voorbij 40% van het scherm is, telt als 'actief'
+    function updateActiveSection() {
+        let current = '';
+        for (const link of links) {
+            const section = document.getElementById(link.section);
+            if (section && section.getBoundingClientRect().top <= window.innerHeight * 0.4) {
+                current = link.section;
+            }
+        }
+        activeSection = current;
+    }
+
     // Header verdwijnt bij naar beneden scrollen en komt terug bij omhoog scrollen
     function handleScroll() {
         const y = window.scrollY;
         scrolled = y > 10;
+        updateActiveSection();
         if (Math.abs(y - lastScrollY) < 5) return;
         if (!menuOpen) headerHidden = y > lastScrollY && y > 80;
         lastScrollY = y;
@@ -140,8 +154,10 @@
         if (event.key === 'Escape' && menuOpen) closeMenu();
     }
 
+    afterNavigate(() => updateActiveSection());
+
     onMount(() => {
-        gsap.from(['.mobile_header', '.navbar_contents'], {
+        gsap.from('.site_header', {
             duration: 1,
             opacity: 0,
             y: -100,
@@ -159,15 +175,31 @@
     });
 </script>
 
-<svelte:window onscroll={handleScroll} onkeydown={handleKeydown} />
+<svelte:window onscroll={handleScroll} onresize={updateActiveSection} onkeydown={handleKeydown} />
 
 <header
-    class="mobile_header"
+    class="site_header"
     class:hidden={headerHidden}
     class:scrolled
     class:open={menuOpen}
 >
-    <a href="/" class="brand" onclick={(event) => handleMenuLink(event, '/')}>Trisjan Mustamu</a>
+    <a href="/" class="brand" onclick={(event) => handleLink(event, '/')}>Trisjan Mustamu</a>
+
+    <nav class="desktop_nav" aria-label="Hoofdmenu">
+        <ul>
+            {#each links as link}
+                <li>
+                    <a
+                        href={link.href}
+                        class:active={activeSection === link.section}
+                        aria-current={activeSection === link.section ? 'location' : undefined}
+                        onclick={(event) => handleLink(event, link.href)}
+                    >{link.label}</a>
+                </li>
+            {/each}
+        </ul>
+    </nav>
+
     <button
         bind:this={toggleButton}
         class="menu_toggle"
@@ -188,11 +220,16 @@
 </header>
 
 <div class="mobile_menu" id="mobile-menu" bind:this={menu} inert={!menuOpen}>
-    <nav aria-label="Hoofdmenu">
+    <nav aria-label="Hoofdmenu mobiel">
         <ul>
             {#each links as link, i}
                 <li>
-                    <a href={link.href} onclick={(event) => handleMenuLink(event, link.href)}>
+                    <a
+                        href={link.href}
+                        class:active={activeSection === link.section}
+                        aria-current={activeSection === link.section ? 'location' : undefined}
+                        onclick={(event) => handleLink(event, link.href)}
+                    >
                         <span class="link_number">0{i + 1}</span>
                         <span class="link_text">{link.label}</span>
                     </a>
@@ -208,98 +245,118 @@
     </div>
 </div>
 
-<nav class="navbar_contents" aria-label="Hoofdmenu">
-	<ul>
-		<li class="home-li"><a href="/">Trisjan Mustamu</a></li>
-		<li><a href="/" class="active-link">Home</a></li>
-		<li><a href="#about">About</a></li>
-		<li><a href="#work">My work</a></li>
-	</ul>
-</nav>
-
 <style>
-    .mobile_header,
+    /* Header (mobiel én desktop): verdwijnt bij omlaag scrollen, komt terug bij omhoog scrollen */
+    .site_header {
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 30;
+        height: var(--header-height);
+        padding: 0 1.5rem;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition:
+            transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+            background-color 0.4s ease,
+            box-shadow 0.4s ease;
+    }
+
+    .site_header.scrolled {
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+    }
+
+    .site_header.hidden {
+        transform: translateY(-100%);
+    }
+
+    .brand {
+        color: #000;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.02em;
+        transition: color 0.4s ease;
+    }
+
+    /* Desktop-links */
+    .desktop_nav > ul {
+        list-style: none;
+        display: flex;
+        gap: 0.5rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .desktop_nav a {
+        position: relative;
+        display: block;
+        padding: 0.5rem 1rem;
+        color: #000;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1.1rem;
+        font-weight: 700;
+        transition: color 0.3s ease-in-out;
+    }
+
+    /* Onderstreping die vanuit het midden groeit bij de actieve sectie */
+    .desktop_nav a::after {
+        content: '';
+        position: absolute;
+        left: 1rem;
+        right: 1rem;
+        bottom: 0.25rem;
+        height: 2px;
+        background-color: currentColor;
+        transform: scaleX(0);
+        transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .desktop_nav a:hover {
+        color: #ff0000;
+    }
+
+    .desktop_nav a.active::after {
+        transform: scaleX(1);
+    }
+
+    .desktop_nav a:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+    .menu_toggle,
     .mobile_menu {
         display: none;
     }
 
-    .navbar_contents > ul {
-        list-style: none;
-        display: flex;
-        padding: 0;
-        font-weight: 700;
-    }
+    @media (min-width: 65.0625rem) {
+        .site_header {
+            padding: 0 2rem;
+        }
 
-    .navbar_contents .home-li {
-        margin-right: auto;
-    }
-
-    .navbar_contents a {
-        display: flex;
-        text-decoration: none;
-        padding: 1rem 2rem;
-        transition: color 0.3s ease-in-out;
-        color: #000;
-        text-transform: uppercase;
-        font-size: 1.2rem;
-    }
-
-    .navbar_contents a:hover {
-        color: #ff0000;
-    }
-
-    .navbar_contents a.active-link {
-        text-decoration: underline solid;
+        .brand {
+            font-size: 1.2rem;
+        }
     }
 
     @media (max-width: 65rem) {
-        .navbar_contents {
+        .desktop_nav {
             display: none;
         }
 
-        /* Header */
-        .mobile_header {
-            position: fixed;
-            inset: 0 0 auto 0;
-            z-index: 30;
-            height: var(--header-height);
-            padding: 0 1.5rem;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition:
-                transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-                background-color 0.4s ease,
-                box-shadow 0.4s ease;
-        }
-
-        .mobile_header.scrolled {
-            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
-        }
-
-        .mobile_header.hidden {
-            transform: translateY(-100%);
-        }
-
-        .mobile_header.open {
+        .site_header.open {
             background-color: transparent;
             backdrop-filter: none;
             -webkit-backdrop-filter: none;
             box-shadow: none;
-        }
-
-        .brand {
-            color: #000;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 0.02em;
-            transition: color 0.4s ease;
         }
 
         .open .brand {
@@ -446,6 +503,13 @@
             transition: color 0.3s ease;
         }
 
+        /* Actieve sectie ook in het mobiele menu onderstrepen */
+        .mobile_menu li > a.active .link_text {
+            text-decoration: underline;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 0.12em;
+        }
+
         .mobile_menu li > a:hover .link_text,
         .mobile_menu li > a:focus-visible .link_text {
             color: #ff0000;
@@ -495,7 +559,8 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-        .mobile_header,
+        .site_header,
+        .desktop_nav a::after,
         .menu_toggle_label > span,
         .menu_toggle_bars > span {
             transition: none;

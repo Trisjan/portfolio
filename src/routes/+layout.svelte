@@ -72,10 +72,8 @@
 		margin: 0 auto;
 	}
 
-	/* Ruimte voor de vaste mobiele header */
-	@media (max-width: 65rem) {
-		main {
-			padding-top: var(--header-height);
-		}
+	/* Ruimte voor de vaste header */
+	main {
+		padding-top: var(--header-height);
 	}
 </style>

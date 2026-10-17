@@ -3,11 +3,169 @@ import { Small_alifuru_logo, Big_alifuru_logo, About_logo, Alifuru_leafs, Photo_
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import { SplitText } from 'gsap/dist/SplitText';
+import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin';
 import { onMount } from 'svelte';
-let activeSection = '';
+let activeSection = $state('');
+
+const projects = [
+	{
+		title: ['Openbare', 'bibliotheek van', 'Amsterdam'],
+		type: 'Code project',
+		url: 'https://mijn-oba.netlify.app/',
+		logo: OBA_logo,
+		mockup: OBA_MacBook,
+		mockupAlt: 'OBA site in macbook mockup',
+	},
+	{
+		title: ['WOGO', 'cocktail', 'walks'],
+		type: 'Code project',
+		url: 'https://wogo.agency.fdnd.nl/',
+		logo: WOGO_logo,
+		mockup: WOGO_mockup,
+		mockupAlt: 'WOGO site mockup',
+	},
+	{
+		title: ['Visual', 'Thinking', 'HBO'],
+		type: 'Code project',
+		url: 'https://visualthinking.dev.fdnd.nl/',
+		logo: Visual_thinking_logo,
+		mockup: Visual_thinking_mockup,
+		mockupAlt: 'Visual Thinking site mockup',
+	},
+];
+
+// Carrousel
+let activeIndex = $state(0);
+/** @type {HTMLDivElement} */
+let track;
+/** @type {HTMLDivElement[]} */
+let cards = [];
+let isProgrammaticScroll = false;
+let scrollFrame = 0;
+
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Afstand van een card tot het begin van de carrousel
+/** @param {number} index */
+const cardOffset = (index) => cards[index].offsetLeft - cards[0].offsetLeft;
+
+/**
+ * @param {number} index
+ * @param {number} direction 1 = vooruit, -1 = terug
+ */
+function animateCardIn(index, direction) {
+	if (prefersReducedMotion()) return;
+
+	const card = cards[index];
+	const image = card.querySelector(':scope > img');
+	const logo = card.querySelector('.work_middle_text > article > img');
+	const textItems = card.querySelectorAll('.work_middle_text > article > :not(img), .work_middle_text > a');
+
+	// Tekst wordt horizontaal onthuld, mee in de richting waarin je door de carrousel gaat
+	const hiddenText = direction > 0 ? 'inset(-20% 100% -20% -5%)' : 'inset(-20% -5% -20% 100%)';
+
+	gsap.killTweensOf([image, logo, ...textItems]);
+	gsap.timeline()
+		.fromTo(image, {
+			clipPath: direction > 0 ? 'inset(0% 0% 0% 100%)' : 'inset(0% 100% 0% 0%)',
+			scale: 1.05,
+		}, {
+			clipPath: 'inset(0% 0% 0% 0%)',
+			scale: 1,
+			duration: 0.9,
+			ease: 'power3.out',
+			clearProps: 'clipPath,transform',
+		})
+		.fromTo(logo, {
+			autoAlpha: 0,
+			scale: 0.6,
+			rotate: -15 * direction,
+		}, {
+			autoAlpha: 1,
+			scale: 1,
+			rotate: 0,
+			duration: 0.7,
+			ease: 'back.out(1.7)',
+			clearProps: 'opacity,visibility,transform',
+		}, '<0.1')
+		.fromTo(textItems, {
+			clipPath: hiddenText,
+			x: 20 * direction,
+		}, {
+			clipPath: 'inset(-20% -5% -20% -5%)',
+			x: 0,
+			duration: 0.8,
+			stagger: 0.08,
+			ease: 'expo.out',
+			clearProps: 'clipPath,transform',
+		}, '<0.1');
+}
+
+/** @param {number} index */
+function setActive(index) {
+	if (index === activeIndex) return;
+	const direction = index > activeIndex ? 1 : -1;
+	activeIndex = index;
+	animateCardIn(index, direction);
+}
+
+/** @param {number} index */
+function goTo(index) {
+	index = (index + projects.length) % projects.length;
+	if (index === activeIndex) return;
+	setActive(index);
+
+	if (prefersReducedMotion()) {
+		track.scrollLeft = cardOffset(index);
+		return;
+	}
+
+	// Scroll-snap tijdelijk uit, anders vecht de browser tegen de animatie
+	isProgrammaticScroll = true;
+	track.style.scrollSnapType = 'none';
+	gsap.to(track, {
+		scrollTo: { x: cardOffset(index), autoKill: false },
+		duration: 0.9,
+		ease: 'power3.inOut',
+		overwrite: true,
+		onComplete: () => {
+			track.style.scrollSnapType = '';
+			isProgrammaticScroll = false;
+		},
+	});
+}
+
+// Houdt de bolletjes bij wanneer er geswiped/gescrold wordt
+function handleTrackScroll() {
+	if (isProgrammaticScroll) return;
+	cancelAnimationFrame(scrollFrame);
+	scrollFrame = requestAnimationFrame(() => {
+		const step = cardOffset(1) || track.clientWidth;
+		const index = Math.min(projects.length - 1, Math.max(0, Math.round(track.scrollLeft / step)));
+		setActive(index);
+	});
+}
+
+// Pijltjestoetsen werken zodra de focus in de carrousel staat
+/** @param {KeyboardEvent} event */
+function handleCarouselKeydown(event) {
+	if (!track?.parentElement?.contains(document.activeElement)) return;
+	if (event.key === 'ArrowRight') {
+		event.preventDefault();
+		goTo(activeIndex + 1);
+	} else if (event.key === 'ArrowLeft') {
+		event.preventDefault();
+		goTo(activeIndex - 1);
+	}
+}
+
+// Bij een andere schermgrootte de actieve card weer netjes uitlijnen
+function handleResize() {
+	if (track && !isProgrammaticScroll) track.scrollLeft = cardOffset(activeIndex);
+}
 
 onMount(() => {
-	gsap.registerPlugin(ScrollTrigger, SplitText);
+	gsap.registerPlugin(ScrollTrigger, SplitText, ScrollToPlugin);
 
 	let tl = gsap.timeline();
 	let splitName = SplitText.create('.intro_text h1', {
@@ -195,6 +353,8 @@ onMount(() => {
 });
 </script>
 
+<svelte:window onresize={handleResize} onkeydown={handleCarouselKeydown} />
+
 <svelte:head>
 	<title>Portfolio</title>
 	<meta name="description" content="Trisjan's portfolio" />
@@ -262,47 +422,45 @@ onMount(() => {
 		</section>
 		<img src={ALifuru_lines} alt="Alifuru lines" loading="lazy">
 	</div>
-	<div class="work_middle">
-		<div class="work_middle_carrousel">
-			<div class="work_middle_carrousel_card" id="work1">
-				<div class="work_middle_text">
-					<article>
-						<img src={OBA_logo} alt="logo">
-						<h2>Openbare<br>bibliotheek van<br>Amsterdam</h2>
-						<h3>Code project</h3>
-					</article>
-					<a href="https://mijn-oba.netlify.app/" target="_blank" rel="noopener noreferrer">View project</a>
+	<div
+		class="work_middle"
+		role="region"
+		aria-roledescription="carrousel"
+		aria-label="Selected work"
+	>
+		<div class="work_middle_carrousel" bind:this={track} onscroll={handleTrackScroll}>
+			{#each projects as project, i}
+				<div
+					class="work_middle_carrousel_card"
+					id="work{i + 1}"
+					bind:this={cards[i]}
+					role="group"
+					aria-roledescription="slide"
+					aria-label="{i + 1} van {projects.length}: {project.title.join(' ')}"
+				>
+					<div class="work_middle_text">
+						<article>
+							<img src={project.logo} alt="{project.title.join(' ')} logo" loading={i === 0 ? 'eager' : 'lazy'}>
+							<h2>{#each project.title as line, j}{line}{#if j < project.title.length - 1}<br>{/if}{/each}</h2>
+							<h3>{project.type}</h3>
+						</article>
+						<a href={project.url} target="_blank" rel="noopener noreferrer" tabindex={i === activeIndex ? 0 : -1}>View project</a>
+					</div>
+					<img src={project.mockup} alt={project.mockupAlt} loading={i === 0 ? 'eager' : 'lazy'}>
 				</div>
-				<img src={OBA_MacBook} alt="OBA site in macbook mockup">
-			</div>
-			<div class="work_middle_carrousel_card" id="work2">
-				<div class="work_middle_text">
-					<article>
-						<img src={WOGO_logo} alt="logo" loading="lazy">
-						<h2>WOGO<br>cocktail<br>walks</h2>
-						<h3>Code project</h3>
-					</article>
-					<a href="https://wogo.agency.fdnd.nl/" target="_blank" rel="noopener noreferrer">View project</a>
-				</div>
-				<img src={WOGO_mockup} alt="OBA site in macbook mockup" loading="lazy">
-			</div>
-			<div class="work_middle_carrousel_card" id="work3">
-				<div class="work_middle_text">
-					<article>
-						<img src={Visual_thinking_logo} alt="logo" loading="lazy">
-						<h2>Visual<br>Thinking<br>HBO</h2>
-						<h3>Code project</h3>
-					</article>
-					<a href="https://visualthinking.dev.fdnd.nl/" target="_blank" rel="noopener noreferrer">View project</a>
-				</div>
-				<img src={Visual_thinking_mockup} alt="OBA site in macbook mockup" loading="lazy">
-			</div>
+			{/each}
 		</div>
-		<nav class="work_carrousel_buttons">
-			<a href="#work1"></a>
-			<a href="#work2"></a>
-			<a href="#work3"></a>
-		</nav>
+		<div class="work_carrousel_buttons">
+			{#each projects as project, i}
+				<button
+					type="button"
+					class:active={i === activeIndex}
+					aria-label="Ga naar project {i + 1}: {project.title.join(' ')}"
+					aria-current={i === activeIndex ? 'true' : undefined}
+					onclick={() => goTo(i)}
+				></button>
+			{/each}
+		</div>
 	</div>
 </section>
 
@@ -463,19 +621,14 @@ onMount(() => {
 		overflow-x: auto;
 		scroll-snap-type: x mandatory; /* zorgt voor een 'snapping' effect bij scrollen */
 
-		scroll-behavior: smooth; /* zorgt voor een vloeiende scrollbeweging */
-		-ms-overflow-style: none; /* voor Internet Explorer en Edge */
+		overscroll-behavior-x: contain; /* voorkomt 'terug'-swipe in de browser */
 		-webkit-overflow-scrolling: touch; /* voor iOS */
 
+		/* De bolletjes laten zien waar je bent, dus de scrollbar mag weg */
+		scrollbar-width: none;
+		-ms-overflow-style: none;
 		&::-webkit-scrollbar {
-			width: 10px;
-			height: 10px;
-		}
-		&::-webkit-scrollbar-thumb {
-			border-radius: 10px;
-		}
-		&::-webkit-scrollbar-track {
-			background-color: transparent;
+			display: none;
 		}
 	}
 
@@ -483,6 +636,7 @@ onMount(() => {
 
 	.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card {
 		scroll-snap-align: start; /* zorgt ervoor dat de cards netjes uitlijnen bij het scrollen */
+		scroll-snap-stop: always; /* één project per swipe, ook bij een snelle swipe */
 		flex-shrink: 0;
 		width: 100%;
 		margin-right: 2rem; /* ruimte tussen de cards */
@@ -540,12 +694,173 @@ onMount(() => {
 		margin-top: 1.5rem;
 	}
 
-	.work > .work_middle > .work_carrousel_buttons > a {
+	.work > .work_middle > .work_carrousel_buttons > button {
 		height: 1.5rem;
 		width: 1.5rem;
-		background-color: grey;
+		padding: 0;
+		border: none;
 		border-radius: 2rem;
-		display: flex;
+		background-color: #d3d3d3;
+		cursor: pointer;
+		transition: background-color 0.4s ease, transform 0.4s ease;
+
+		&:hover {
+			background-color: #a9a9a9;
+		}
+
+		&:focus-visible {
+			outline: 2px solid #333;
+			outline-offset: 3px;
+		}
+
+		&.active {
+			background-color: #333;
+			transform: scale(1.15);
+			cursor: default;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.work > .work_middle > .work_carrousel_buttons > button {
+			transition: none;
+		}
+	}
+
+	/* Mobiel: elke sectie is precies één scherm hoog (svh = zonder adresbalk-sprong) */
+	@media (max-width: 40.6249em) {
+		.intro,
+		.about,
+		.work {
+			box-sizing: border-box;
+			flex: none; /* anders wint de algemene 'section { flex: 0.6 }' van de hoogte */
+			min-height: 0;
+			height: 100vh;
+			height: 100svh;
+			overflow: hidden;
+		}
+
+		.intro {
+			height: calc(100vh - var(--header-height));
+			height: calc(100svh - var(--header-height));
+		}
+
+		.intro > .intro_picture img {
+			max-height: 45svh;
+			max-width: 80vw;
+		}
+
+		/* About */
+		.about {
+			justify-content: flex-start;
+			padding: 1.5rem 0;
+		}
+
+		.about > .about_top {
+			padding: 0;
+		}
+
+		.about > .about_top h2 {
+			font-size: 2.75rem;
+			margin: 0.5rem 0 0.75rem;
+		}
+
+		.about > .about_top > section > img {
+			height: 2.5rem;
+		}
+
+		.about > article {
+			flex: 1;
+			min-height: 0;
+			justify-content: flex-start;
+			gap: 1.25rem;
+			padding: 1.25rem 0 0;
+		}
+
+		.about > article > .about_text {
+			flex: none;
+		}
+
+		.about > article > .about_text > p {
+			font-size: 0.875rem;
+			line-height: 1.45;
+		}
+
+		.about > article > .about_text > .about_contact {
+			flex: none;
+			margin: 1rem 0 0;
+		}
+
+		.about > article > img {
+			flex: 1 1 0;
+			min-height: 0;
+			width: 100%;
+			object-fit: cover;
+		}
+
+		/* Selected work */
+		.work {
+			justify-content: flex-start;
+			padding: 1.5rem 0;
+		}
+
+		.work > .work_top {
+			flex: none;
+			padding: 0;
+		}
+
+		.work > .work_top > section > img {
+			height: 2.5rem;
+		}
+
+		.work > .work_top h2 {
+			font-size: 2.5rem;
+			margin: 0.5rem 0 0.75rem;
+		}
+
+		.work > .work_top > section > h2 > .line {
+			display: inline;
+		}
+
+		.work > .work_middle {
+			flex: 1;
+			min-height: 0;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.work > .work_middle > .work_middle_carrousel {
+			flex: 1;
+			min-height: 0;
+			padding-top: 1.5rem;
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text {
+			gap: 1rem;
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > a {
+			white-space: nowrap;
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > .work_middle_text > article > img {
+			height: 3.5rem;
+		}
+
+		.work > .work_middle > .work_middle_carrousel > .work_middle_carrousel_card > img {
+			flex: 1 1 0;
+			min-height: 0;
+			height: auto;
+		}
+
+		.work > .work_middle > .work_carrousel_buttons {
+			flex: none;
+			margin-top: 1rem;
+		}
 	}
 
 	@media (min-width: 40.625em) {
